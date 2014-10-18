@@ -1,26 +1,34 @@
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect, render_to_response
+from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.template import RequestContext
-from models import *
-from forms import *
-from comics import settings
+# from django.template import RequestContext
+# from comics import settings
+from xkcd.forms import EmailUserCreationForm
 
-# Create your views here.
+
 def home(request):
-    return render(request, "prelogin/index.html")
+    return render(request, "home.html")
 
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = EmailUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            text_content = 'Thank you for signing up for our website, {}'.format(user.username)
+            html_content = '<h2>Thanks {} for signing up!</h2> ' \
+                           '<div>I hope you enjoy using our site</div>'.format(user.username)
+            msg = EmailMultiAlternatives("Welcome!", text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+            msg.attach_alternative(html_content, "text/html")
+            # msg.send()
             return redirect("profile")
     else:
-        form = UserCreationForm()
+        form = EmailUserCreationForm()
 
-    return render(request, "prelogin/register.html", {
+    return render(request, "registration/register.html", {
         'form': form,
     })
 
@@ -29,5 +37,11 @@ def register(request):
 @login_required
 def profile(request):
     if not request.user.is_authenticated():
-        return redirect("prelogin/login")
-    return render(request, "postlogin/profile.html")
+        return redirect("registration/login")
+    return render(request, "registration/profile.html")
+
+
+@csrf_exempt
+@login_required
+def comics(request):
+    pass
