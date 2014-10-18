@@ -30,4 +30,3 @@ class FormTestCase(TestCase):
         form = EmailUserCreationForm()
         form.cleaned_data = {'username': 'tom'}
         self.assertEqual(form.clean_username(), "tom")
-        
