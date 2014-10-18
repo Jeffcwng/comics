@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+
+{% block content %}
+
+        <div class="container">
+
+        <h1>Hi, {{ user.username }}. </h1>
+
+        <p>The last time you were here was {{ user.last_lgoin }}. </p>
+
+        <p>Your email address is {{ user.email }}.</p>
+
+        <p>You joined on {{ user.date_joined }}</p>
+
+        <p>If you would like to reset your password <a href="{% url 'password_reset' %}">click here</a></p>
+
+        </div>
+
+
+
+{% endblock content %}

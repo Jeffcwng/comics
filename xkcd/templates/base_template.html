@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>xkcd - comics finder</title>
 
     <!-- Bootstrap -->
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
@@ -40,16 +40,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand active" href="#">xkcd Comics</a>
+              <a class="navbar-brand active" href="{% url 'home' %}">xkcd Comics</a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'comics' %}">Main menu</a></li>
+                <li><a href="{% url 'random_search' %}">Get a random comic</a></li>
+                <li><a href="{% url 'search_by_date' %}">Search for a comic</a></li>
 {#                <li><a href="#about">About</a></li>#}
 
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">Profile/Settings</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>

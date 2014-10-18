@@ -1,12 +1,10 @@
-from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
-from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from xkcd.forms import EmailUserCreationForm
 # from django.template import RequestContext
 # from comics import settings
-from xkcd.forms import EmailUserCreationForm
 
 
 def home(request):
@@ -14,34 +12,38 @@ def home(request):
 
 @csrf_exempt
 def register(request):
-    if request.method == 'POST':
-        form = EmailUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            text_content = 'Thank you for signing up for our website, {}'.format(user.username)
-            html_content = '<h2>Thanks {} for signing up!</h2> ' \
-                           '<div>I hope you enjoy using our site</div>'.format(user.username)
-            msg = EmailMultiAlternatives("Welcome!", text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
-            msg.attach_alternative(html_content, "text/html")
-            # msg.send()
-            return redirect("profile")
-    else:
-        form = EmailUserCreationForm()
-
-    return render(request, "registration/register.html", {
-        'form': form,
-    })
+        if request.method == 'POST':
+            form = EmailUserCreationForm(request.POST)
+            if form.is_valid():
+                username = request.POST['username']
+                password = request.POST['password1']
+                form.save()
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return redirect("comics")
+        else:
+            form = EmailUserCreationForm()
+        return render(request, "registration/register.html", {'form': form})
 
 
 @csrf_exempt
 @login_required
 def profile(request):
-    if not request.user.is_authenticated():
-        return redirect("registration/login")
-    return render(request, "registration/profile.html")
-
+    return render(request, "postlogin/profile.html")
 
 @csrf_exempt
 @login_required
 def comics(request):
-    pass
+    return render(request, "postlogin/comics.html")
+
+@csrf_exempt
+@login_required
+def random_search(request):
+    return render(request, "postlogin/random_search.html")
+
+@csrf_exempt
+@login_required
+def search_by_date(request):
+    return render(request, "postlogin/search_by_date.html")

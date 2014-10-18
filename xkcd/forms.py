@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm
-from xkcd.models import Person, Like
+from xkcd.models import Person
 
 
 class EmailUserCreationForm(UserCreationForm):
@@ -9,7 +8,7 @@ class EmailUserCreationForm(UserCreationForm):
 
     class Meta:
         model = Person
-        fields = ("username", "first_name", "last_name", "phone", "email", "password1", "password2")
+        fields = ("username", "first_name", "last_name","email", "password1", "password2")
 
     def clean_username(self):
         # Since User.username is unique, this check is redundant,
@@ -23,12 +22,3 @@ class EmailUserCreationForm(UserCreationForm):
             self.error_messages['duplicate_username'],
             code='duplicate_username',
         )
-
-class PersonForm(ModelForm):
-    class Meta:
-        model = Person
-
-
-class LikeForm(ModelForm):
-    class Meta:
-        model = Like
