@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* CSS Document */
+
+{% load staticfiles %}
+
+body {
+
+    background-color: #555555;
+    color: #ddd;
+
+}
