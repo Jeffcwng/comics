@@ -1,8 +1,7 @@
 import datetime
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
 
 class Person(AbstractUser):
     phone = models.CharField(max_length=12, null=True, blank=True, help_text="Format: 415-111-2222")
@@ -10,6 +9,7 @@ class Person(AbstractUser):
 
     def __unicode__(self):
         return unicode(self.username)
+
 
 class Like(models.Model):
     comic_name = models.CharField(max_length=50)
