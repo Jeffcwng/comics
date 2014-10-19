@@ -25,10 +25,10 @@ class SyntaxTest(TestCase):
         if warnings:
             self.fail("{0} Syntax warnings!\n\n{1}".format(len(warnings), "\n".join(warnings)))
 
-# Testing models
+# Testing models creating users and likes
 
 
-class PersonAndLikeTest(TestCase):
+class ModelsTest(TestCase):
     def setUp(self):
         self.person = Person.objects.create(username='test-user')
         self.like = Like.objects.create(comic_name='test-name', url='http://test.com', liked_by=self.person)
@@ -221,6 +221,35 @@ class SeleniumTests(LiveServerTestCase):
         body = self.selenium.find_element_by_tag_name('body')
         self.assertIn('was added successfully', body.text)
 
+    def test_registration_page(self):
+        username = 'test-user3'
+        first_name = 'miguel'
+        last_name = 'barbosa'
+        email = 'test3@test.com'
+        password1 = 'password3'
+        password2 = 'password3'
+        self.selenium.get("{}{}".format(self.live_server_url, reverse('register')))
+        sleep(3.0)
+        self.selenium.find_element_by_name('username').send_keys(username)
+        sleep(1.0)
+        self.selenium.find_element_by_name('first_name').send_keys(first_name)
+        sleep(1.0)
+        self.selenium.find_element_by_name('last_name').send_keys(last_name)
+        sleep(1.0)
+        self.selenium.find_element_by_name('email').send_keys(email)
+        sleep(1.0)
+        self.selenium.find_element_by_name('password1').send_keys(password1)
+        sleep(1.0)
+        self.selenium.find_element_by_name('password2').send_keys(password2)
+        sleep(1.0)
+        self.selenium.find_element_by_css_selector("input[value='Submit']").click()
+        sleep(2.0)
+        response = self.selenium.find_element_by_tag_name('body')
+        sleep(1.0)
+        self.assertIn('Welcome to the main area', response.text)
+        sleep(1.0)
+
+
     def create_user_and_like(self):
         self.user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
                                                email='test@test.com', password='password')
@@ -261,18 +290,15 @@ class SeleniumTests(LiveServerTestCase):
         sleep(1.0)
         self.selenium.find_elements_by_link_text('Find a random xkcd comic')[0].click()
         sleep(1.0)
-        self.selenium.get("{}{}".format(self.live_server_url, reverse('random_search')))
         body = self.selenium.find_element_by_tag_name('body')
         self.assertIn("Here's a random xkcd comic.", body.text)
         sleep(4.0)
         self.selenium.find_elements_by_id("like_this")[0].click()
         sleep(1.0)
         self.selenium.get("{}{}".format(self.live_server_url, reverse('random_search')))
-        body = self.selenium.find_element_by_tag_name('body')
-        self.assertIn("Here's a random xkcd comic.", body.text)
-        sleep(4.0)
-        self.selenium.get("{}{}".format(self.live_server_url, reverse('random_search')))
+        sleep(1.0)
         self.selenium.find_elements_by_id("find_new_cartoon")[0].click()
+        sleep(1.0)
         body = self.selenium.find_element_by_tag_name('body')
         self.assertIn("Here's a random xkcd comic.", body.text)
         sleep(1.0)
@@ -331,5 +357,28 @@ class SeleniumTests(LiveServerTestCase):
         response = self.selenium.find_element_by_tag_name('body')
         sleep(1.0)
         self.assertIn('Email with password reset instructions has been sent.', response.text)
+        sleep(1.0)
+
+    def test_logout_page(self):
+        self.create_user_and_like()
+        username = 'test-user'
+        password = 'password'
+        self.selenium.get("{}{}".format(self.live_server_url, reverse('login')))
+        self.selenium.find_elements_by_link_text('Login')[0].click()
+        sleep(1)
+        self.selenium.find_element_by_name('username').send_keys(username)
+        password_input = self.selenium.find_element_by_name('password')
+        password_input.send_keys(password)
+        sleep(1)
+        password_input.send_keys(Keys.RETURN)
+        sleep(1.0)
+        body = self.selenium.find_element_by_tag_name('body')
+        self.assertIn('Welcome to the main area', body.text)
+        sleep(1.0)
+        self.selenium.find_elements_by_link_text('Logout')[0].click()
+        sleep(3.0)
+        response = self.selenium.find_element_by_tag_name('body')
+        sleep(1.0)
+        self.assertIn('Welcome to our amazing xkcd comic generator', response.text)
         sleep(1.0)
 
