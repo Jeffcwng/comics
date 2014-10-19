@@ -4,10 +4,13 @@ from xkcd.models import Person, Like
 
 class ModelsTest(TestCase):
     def setUp(self):
+        # Setup creates a Person object and a like object with the person
         self.person = Person.objects.create(username='test-user')
         self.like = Like.objects.create(comic_name='test-name', url='http://test.com', liked_by=self.person)
 
-    def test_person_and_like_creation(self):
+    def test_like(self):
+        # First checks to see if like was created
+        # Then checks to see if Person was connected to Like
         self.assertEqual(self.person.username, 'test-user')
         self.assertEqual(self.like.comic_name, 'test-name')
         self.assertEqual(self.like.url, 'http://test.com')

@@ -97,37 +97,49 @@ class SeleniumTests(LiveServerTestCase):
         sleep(1.0)
 
     def create_user_and_like(self):
-        self.user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
-                                               email='test@test.com', password='password')
-        self.like = Like.objects.create(comic_name='test-name', url='http://test.com', liked_by=self.user)
-        self.like = Like.objects.create(comic_name='test-name2', url='http://test2.com', liked_by=self.user)
+        self.username = 'test-user'
+        self.password = 'password'
+        self.user = Person.objects.create_user(
+            first_name='miguel',
+            last_name='barbosa',
+            username=self.username,
+            email='test@test.com',
+            password=self.password
+        )
+        self.like = Like.objects.create(
+            comic_name='test-name',
+            url='http://test.com',
+            liked_by=self.user
+        )
+        self.like = Like.objects.create(
+            comic_name='test-name2',
+            url='http://test2.com',
+            liked_by=self.user
+        )
 
     def test_login_user_and_main_area(self):
         self.create_user_and_like()
-        username = 'test-user'
-        password = 'password'
         self.selenium.get("{}{}".format(self.live_server_url, reverse('login')))
         self.selenium.find_elements_by_link_text('Login')[0].click()
         sleep(2)
-        self.selenium.find_element_by_name('username').send_keys(username)
+        self.selenium.find_element_by_name('username').send_keys(self.username)
         password_input = self.selenium.find_element_by_name('password')
-        password_input.send_keys(password)
+        password_input.send_keys(self.password)
         sleep(2)
         password_input.send_keys(Keys.RETURN)
-        sleep(2.0)
+        sleep(2)
         body = self.selenium.find_element_by_tag_name('body')
         self.assertIn('Welcome to the main area', body.text)
 
     def test_main_area_to_random_search(self):
         self.create_user_and_like()
-        username = 'test-user'
-        password = 'password'
+        like_exist = Like.objects.filter(liked_by=self.user).exists()
         self.selenium.get("{}{}".format(self.live_server_url, reverse('login')))
         self.selenium.find_elements_by_link_text('Login')[0].click()
         sleep(1)
-        self.selenium.find_element_by_name('username').send_keys(username)
+        self.selenium.find_element_by_name('username').send_keys(self.username)
         password_input = self.selenium.find_element_by_name('password')
-        password_input.send_keys(password)
+        password_input.send_keys(self.password)
         sleep(1)
         password_input.send_keys(Keys.RETURN)
         sleep(1.0)
@@ -138,16 +150,14 @@ class SeleniumTests(LiveServerTestCase):
         sleep(1.0)
         body = self.selenium.find_element_by_tag_name('body')
         self.assertIn("Here's a random xkcd comic.", body.text)
-        sleep(4.0)
         self.selenium.find_elements_by_id("like_this")[0].click()
-        sleep(1.0)
-        # self.assertTrue(Like.objects.filter(liked_by='test-user').exists())  # fix this
-        # sleep(1.0)
+        self.assertTrue(Like.objects.filter(liked_by=self.user).exists())  # fix this
         self.selenium.get("{}{}".format(self.live_server_url, reverse('random_search')))
-        sleep(1.0)
+        sleep(.5)
         self.selenium.find_elements_by_id("find_new_cartoon")[0].click()
-        sleep(1.0)
+        sleep(.5)
         body = self.selenium.find_element_by_tag_name('body')
+        sleep(.5)
         self.assertIn("Here's a random xkcd comic.", body.text)
         sleep(1.0)
 
