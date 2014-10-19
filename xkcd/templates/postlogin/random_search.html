@@ -1,7 +1,18 @@
 {% extends "base_template.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <script src="{% static 'js/like.js' %}"></script>
+{% endblock header %}
 
 {% block content %}
     <div class="container">
-    <p>search by random</p>
+    <p>Here's a random comic</p>
+        <div>
+        <h3>{{ comic.safe_title }} - {{ comic.year }}</h3>
+        <img alt="{{ comic.alt }}" src="{{ comic.img }}">
+        </div>
+        <button id="like_this" class="btn btn-lg btn-primary">I like this</button>
+        <button id="find_new_cartoon" class="btn btn-lg btn-primary">Find a new comic</button>
     </div>
 {% endblock %}

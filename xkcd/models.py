@@ -1,10 +1,9 @@
-import datetime
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class Person(AbstractUser):
-    today = datetime.date.today()
+    pass
 
     def __unicode__(self):
         return unicode(self.username)

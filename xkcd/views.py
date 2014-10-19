@@ -1,8 +1,12 @@
+import json
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from xkcd.forms import EmailUserCreationForm
+from xkcd.models import Person, Like
+from xkcd.utils import get_random_comic
 # from django.template import RequestContext
 # from comics import settings
 
@@ -41,9 +45,25 @@ def comics(request):
 @csrf_exempt
 @login_required
 def random_search(request):
-    return render(request, "postlogin/random_search.html")
 
-@csrf_exempt
-@login_required
-def search_by_date(request):
-    return render(request, "postlogin/search_by_date.html")
+    user = Person.objects.get(username=request.user.username)
+    comic = get_random_comic()
+    comic_name = comic['title']
+    url = comic['img']
+
+    if request.method == 'POST':
+        Like.objects.create(comic_name=comic_name, url=url, like_status=True, liked_by=user)
+        response_dict = {'url': '/random_search/'},
+        return HttpResponse(json.dumps(response_dict), content_type='application/json')
+
+    else:
+        pass
+
+    return render(request, "postlogin/random_search.html", {'comic': comic})
+
+@login_required()
+def all_user_likes(request):
+    likes = Like.objects.filter(liked_by=request.user)
+    print likes
+
+    return render(request, "postlogin/all_user_likes.html", {'likes': likes})

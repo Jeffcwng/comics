@@ -5,10 +5,10 @@ urlpatterns = patterns('',
 
     # Main site areas
     url(r'^$', 'xkcd.views.home', name='home'),
+    url(r'^all_user_likes/$', 'xkcd.views.all_user_likes', name='all_user_likes'),
     url(r'^comics/$', 'xkcd.views.comics', name='comics'),
     url(r'^profile/$', 'xkcd.views.profile', name='profile'),
     url(r'^random_search/$', 'xkcd.views.random_search', name='random_search'),
-    url(r'^search_by_date/$', 'xkcd.views.search_by_date', name='search_by_date'),
 
     # Register, log in, and logout
     url(r'^register/$', 'xkcd.views.register', name='register'),
