@@ -4,9 +4,10 @@
             <div class="row">
                 <div class="col-lg-4"></div>
                 <div class="col-lg-8">
-                    <h1>Hi, {{ user.username }}. </h1>
+                    <h1>Your Profile Settings</h1>
+                    <h2>Hi, {{ user.username }}.</h2>
                     <p>You joined this site on: {{ user.date_joined }}</p>
-                    <p>The last time you were here was on: {{ user.last_login }}. </p>
+                    <p>The last time you were here was on: {{ user.last_login }}.</p>
                     <p>Your email address is: {{ user.email }}.</p>
                     <p>Want to reset your password? <a href="{% url 'password_reset' %}">Click Here</a></p>
                 </div>

@@ -10,7 +10,7 @@ from xkcd.utils import get_random_comic
 # from django.template import RequestContext
 # from comics import settings
 
-
+@csrf_exempt
 def home(request):
     return render(request, "home.html")
 
