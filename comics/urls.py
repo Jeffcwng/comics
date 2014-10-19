@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 urlpatterns = patterns('',
-
     # Main site areas
     url(r'^$', 'xkcd.views.home', name='home'),
     url(r'^all_user_likes/$', 'xkcd.views.all_user_likes', name='all_user_likes'),

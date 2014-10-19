@@ -1,8 +1,12 @@
 {% extends 'base_template.html' %}
-
-
 {% block content %}
-Yo
-
-
+    <h3>Here are all the comics you have liked</h3>
+    <ul>
+        {% for like in likes %}
+            <li>
+                    {{ like.comic_name }}
+                    <a href="{{ like.url }}">Link to comic</a><br>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
