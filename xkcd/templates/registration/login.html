@@ -1,7 +1,7 @@
 {% extends "base_template.html" %}
 
 {% block content %}
-    <div class="container">
+
     <form method="post" action=".">
         {% csrf_token %}
         {{ form.as_p }}
@@ -10,5 +10,5 @@
     </form>
 
     <p>Not member? <a href="{% url 'register' %}">Register!</a></p>
-    </div>
+
 {% endblock %}

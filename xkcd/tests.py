@@ -12,12 +12,13 @@ from xkcd.test_utils import run_pyflakes_for_package, run_pep8_for_package
 
 # Testing for syntax
 
+
 class SyntaxTest(TestCase):
     def test_syntax(self):
         """
         Run pyflakes/pep8 across the code base to check for potential errors.
         """
-        packages = ['scheduler']
+        packages = ['xkcd']
         warnings = []
         for package in packages:
             warnings.extend(run_pyflakes_for_package(package, extra_ignore=("_settings",)))
@@ -59,7 +60,7 @@ class FormTestCase(TestCase):
 
 class ViewTestCase(TestCase):
 
-# Testing pre login section of site
+    # Testing pre login section of site
 
     def test_home_page(self):
         print "test home page"
@@ -100,62 +101,61 @@ class ViewTestCase(TestCase):
 # Testing post login section of site
 
     def test_all_user_likes(self):
-        user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
-                                          email='test@test.com', password='password')
+        self.user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
+                                               email='test@test.com', password='password')
+        Like.objects.create(comic_name='test-name', url='http://test.com', liked_by=self.user)
         print "testing all user likes page"
-        self.client.login(username=user.username, password=user.password)
+        self.client.login(username='test-user', password='password')
         response = self.client.get(reverse('all_user_likes'))
-        print response
-        self.assertInHTML('', response.content)
+        self.assertInHTML('<li>test-name<a href="http://test.com">Link to comic</a><br></li>', response.content)
 
     def test_comics_page(self):
-        user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
-                                          email='test@test.com', password='password')
+        Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
+                                   email='test@test.com', password='password')
         print "testing comics likes page"
-        self.client.login(username=user.username, password=user.password)
+        self.client.login(username='test-user', password='password')
         response = self.client.get(reverse('comics'))
-        print response
-        self.assertInHTML('', response.content)
+        self.assertInHTML('<h1>Welcome to the main area</h1>', response.content)
 
     def test_logout_page(self):
-        user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
-                                          email='test@test.com', password='password')
+        Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
+                                   email='test@test.com', password='password')
         print "testing log out page"
-        self.client.login(username=user.username, password=user.password)
+        self.client.login(username='test-user', password='password')
         response = self.client.get(reverse('logout'))
         self.assertInHTML('<p>Come back soon!</p>', response.content)
 
     def test_profile_page(self):  # doesn't work
-        user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
-                                          email='test@test.com', password='password')
+        Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
+                                   email='test@test.com', password='password')
         print "testing profile page"
-        self.client.login(username=user.username, password=user.password)
+        self.client.login(username='test-user', password='password')
         response = self.client.get(reverse('profile'))
-        print response
-        self.assertInHTML('<h1>Your Profile Settings></h1>', response.content)
+        self.assertInHTML('<h2>Hi, test-user.</h2>', response.content)
 
-    @patch('cards.utils.requests')  # doesn't work
+    @patch('xkcd.utils.requests')  # doesn't work
     def test_random_search_page(self, mock_requests):
         mock_comic = {
-        'num': 1433,
-        'year': "2014",
-        'safe_title': "Lightsaber",
-        'alt': "A long time in the future, in a galaxy far, far, away.",
-        'transcript': "An unusual gamma-ray burst originating from somewhere across the universe.",
-        'img': "http://imgs.xkcd.com/comics/lightsaber.png",
-        'title': "Lightsaber",
+            'num': 1433,
+            'year': "2014",
+            'safe_title': "Lightsaber",
+            'alt': "A long time in the future, in a galaxy far, far, away.",
+            'transcript': "An unusual gamma-ray burst originating from somewhere across the universe.",
+            'img': "http://imgs.xkcd.com/comics/lightsaber.png",
+            'title': "Lightsaber",
         }
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = mock_comic
         mock_requests.get.return_value = mock_response
-
-        response = self.client.get(reverse('home'))
+        Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
+                                   email='test@test.com', password='password')
+        self.client.login(username='test-user', password='password')
+        response = self.client.get(reverse('random_search'))
         self.assertIn('<h3>{} - {}</h3>'.format(mock_comic['safe_title'], mock_comic['year']),
                       response.content)
         self.assertIn('<img alt="{}" src="{}">'.format(mock_comic['alt'], mock_comic['img']),
                       response.content)
-        self.assertIn('<p>{}</p>'.format(mock_comic['transcript']), response.content)
 
 
 # Selenium Tests
@@ -249,7 +249,6 @@ class SeleniumTests(LiveServerTestCase):
         self.assertIn('Welcome to the main area', response.text)
         sleep(1.0)
 
-
     def create_user_and_like(self):
         self.user = Person.objects.create_user(first_name='miguel', last_name='barbosa', username='test-user',
                                                email='test@test.com', password='password')
@@ -295,6 +294,8 @@ class SeleniumTests(LiveServerTestCase):
         sleep(4.0)
         self.selenium.find_elements_by_id("like_this")[0].click()
         sleep(1.0)
+        # self.assertTrue(Like.objects.filter(liked_by='test-user').exists())  # fix this
+        # sleep(1.0)
         self.selenium.get("{}{}".format(self.live_server_url, reverse('random_search')))
         sleep(1.0)
         self.selenium.find_elements_by_id("find_new_cartoon")[0].click()
@@ -381,4 +382,3 @@ class SeleniumTests(LiveServerTestCase):
         sleep(1.0)
         self.assertIn('Welcome to our amazing xkcd comic generator', response.text)
         sleep(1.0)
-

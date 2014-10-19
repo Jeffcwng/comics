@@ -10,9 +10,11 @@ from xkcd.utils import get_random_comic
 # from django.template import RequestContext
 # from comics import settings
 
+
 @csrf_exempt
 def home(request):
     return render(request, "home.html")
+
 
 @csrf_exempt
 def register(request):
@@ -37,10 +39,12 @@ def register(request):
 def profile(request):
     return render(request, "postlogin/profile.html")
 
+
 @csrf_exempt
 @login_required
 def comics(request):
     return render(request, "postlogin/comics.html")
+
 
 @csrf_exempt
 @login_required
@@ -60,6 +64,7 @@ def random_search(request):
         pass
 
     return render(request, "postlogin/random_search.html", {'comic': comic})
+
 
 @login_required()
 def all_user_likes(request):
