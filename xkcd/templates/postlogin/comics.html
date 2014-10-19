@@ -2,6 +2,14 @@
 
 {% block content %}
     <div class="container">
-    <p>Comic page</p>
+        <div class="row">
+            <center><h1>Welcome to the main area</h1></center>
+            <div class="col-lg-6">
+                <h3 style="text-align:center"><a href=" {% url 'random_search'%}">Find a random xkcd comic</a></h3>
+            </div>
+            <div class="col-lg-6">
+                <h3 style="text-align:center"><a href=" {% url 'all_user_likes'%}">Browse your latest likes</a></h3>
+            </div>
+        </div>
     </div>
 {% endblock %}

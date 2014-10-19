@@ -1,0 +1,22 @@
+{% extends "base_template.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <script src="{% static 'js/like.js' %}"></script>
+{% endblock header %}
+
+{% block content %}
+        <div class="row">
+            <center><h1>Here's a random xkcd comic.</h1></center>
+            <div class="col-lg-9">
+                <div>
+                <h3>{{ comic.safe_title }} - {{ comic.year }}</h3>
+                <img alt="{{ comic.alt }}" src="{{ comic.img }}">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <button id="like_this" class="btn btn-lg btn-primary">I like this</button>
+                <button id="find_new_cartoon" class="btn btn-lg btn-primary">Find a new comic</button>
+            </div>
+        </div>
+{% endblock %}
