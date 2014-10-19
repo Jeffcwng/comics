@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 urlpatterns = patterns('',
+
     # Main site areas
     url(r'^$', 'xkcd.views.home', name='home'),
     url(r'^all_user_likes/$', 'xkcd.views.all_user_likes', name='all_user_likes'),
@@ -14,7 +15,6 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
 
-
     #Password reset
     url(r'^password_reset/$', 'django.contrib.auth.views.password_reset', name='password_reset'),
     url(r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done', name='password_reset_done'),
@@ -25,5 +25,4 @@ urlpatterns = patterns('',
 
     #Admin
     url(r'^admin/', include(admin.site.urls)),
-
 )

@@ -3,25 +3,22 @@
 {% block content %}
 
    <div class="container">
-   <div class="col-lg-3">
-
-    <form method="post" action="." >
-         {% csrf_token %}
-{#        {{ form.as_p }}#}
-
-        <table width="100%" border="0" cellspacing="5" cellpadding="5">
-        {% for field in form %}
-
-           <tr><td style="padding: 5px;" width="90" align="right" valign="top">{{ field.label_tag }}</td>
-           <td align="left" valign="top"><span style="padding-left: 10px;">{{ field }}</span></td></tr>
-
-        {% endfor %}
-        </table>
-        <div align="center">
-        <input class="btn btn-lg btn-primary" type="submit" value="Submit">
-        </div>
-    </form>
-
-    </div>
+       <div class="row">
+           <div class="col-lg-9"></div>
+           <div class="col-lg-3">
+                <form method="post" action="." >
+                     {% csrf_token %}
+                        <table width="100%" border="0" cellspacing="5" cellpadding="5">
+                            {% for field in form %}
+                               <tr><td style="padding: 5px;" width="90" align="right" valign="top">{{ field.label_tag }}</td>
+                               <td align="left" valign="top"><span style="padding-left: 10px;">{{ field }}</span></td></tr>
+                            {% endfor %}
+                        </table>
+                    <div align="center">
+                    <input class="btn btn-lg btn-primary" type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+       </div>
     </div>
 {% endblock %}
