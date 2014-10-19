@@ -14,6 +14,7 @@ from xkcd.models import Person, Like
 class FormTestCase(TestCase):
     def test_clean_username_exception(self):
         # Create a player so that this username we're testing is already taken
+        # test is unfinished
         Person.objects.create_user(username='test-user')
 
         # set up the form for testing
@@ -25,6 +26,7 @@ class FormTestCase(TestCase):
             form.clean_username()
 
     def test_clean_username_inverse(self):
+        # test is unfinished
 
         Person.objects.create_user(username='test-user')
         form = EmailUserCreationForm()
