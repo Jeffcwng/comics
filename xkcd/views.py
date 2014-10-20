@@ -56,10 +56,14 @@ def random_search(request):
     url = comic['img']
 
     if request.method == 'POST':
-        Like.objects.create(comic_name=comic_name, url=url, like_status=True, liked_by=user)
+        Like.objects.create(
+            comic_name=comic_name,
+            url=url,
+            like_status=True,
+            liked_by=user
+        )
         response_dict = {'url': '/random_search/'},
         return HttpResponse(json.dumps(response_dict), content_type='application/json')
-
     else:
         pass
 
