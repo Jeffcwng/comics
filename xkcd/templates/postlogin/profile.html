@@ -1,16 +1,27 @@
 {% extends 'base_template.html' %}
 {% block content %}
+    <p><br></p>
         <div class="container">
             <div class="row">
-                <div class="col-lg-4"></div>
-                <div class="col-lg-8">
-                    <h1>Your Profile Settings</h1>
+               <div class="box" id="curl_shadow_profile">
+                <div class="col-lg-12">
+                    <hr>
+                    <h1 class="intro-text text-center">
+                        <strong>Your Profile Settings</strong>
+                    </h1>
+                    <hr>
+                </div>
+                <div class="col-md-10">
                     <h2>Hi, {{ user.username }}.</h2>
                     <p>You joined this site on: {{ user.date_joined }}</p>
                     <p>The last time you were here was on: {{ user.last_login }}.</p>
                     <p>Your email address is: {{ user.email }}.</p>
                     <p>Want to reset your password? <a href="{% url 'password_reset' %}">Click Here</a></p>
                 </div>
+                   <div class="clearfix"></div>
                 </div>
+            </div>
+
+
         </div>
 {% endblock content %}

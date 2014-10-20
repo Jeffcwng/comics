@@ -1,8 +1,18 @@
 {% extends 'base_template.html' %}
 {% block content %}
+    <p><br></p>
     <div class="container">
         <div class="row">
-            <h3>Here are all the comics you have liked.</h3>
+        <div class="box">
+            <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        <strong>Here are all the comics you have liked.</strong>
+                    </h2>
+                    <hr>
+            </div>
+
+            <div class="col-md-10">
             <ul>
                 {% for like in likes %}
                     <li>
@@ -10,6 +20,9 @@
                     </li>
                 {% endfor %}
             </ul>
+            </div>
+        <div class="clearfix"></div>
+        </div>
         </div>
     </div>
 {% endblock content %}

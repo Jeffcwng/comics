@@ -9,15 +9,27 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="{% static 'css/business-casual.css'%}" rel="stylesheet">
+
+        <!-- Fonts -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
          {% block header %}
          {% endblock header %}
   </head>
   <body>
-      <div class="container">
-        <div class="navbar navbar-inverse navbar-default" role="navigation">
-          <div class="container-fluid">
+
+        <div class="brand">XKCD Comics</div>
+        <div class="address-bar">Michael | Miguel | Jeff</div>
+
+        <nav class="navbar navbar-default" id="curl_shadow" role="navigation">
+        <div class="container">
+{#        <div class="navbar navbar-inverse navbar-default" role="navigation">#}
+{#          <div class="container-fluid">#}
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -27,15 +39,16 @@
               </button>
               <a class="navbar-brand active" href="{% url 'home' %}">xkcd Comics</a>
             </div>
-            <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li><a href="{% url 'comics' %}">Main menu</a></li>
-                <li><a href="{% url 'random_search' %}">Get a random comic</a></li>
-                <li><a href="{% url 'all_user_likes' %}">Your Favorite comics</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
+{#            <div class="navbar-collapse collapse">#}
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+                <li><a href="{% url 'comics' %}">Home</a></li>
+                <li><a href="{% url 'random_search' %}">Random comic</a></li>
+                <li><a href="{% url 'all_user_likes' %}">Your Favorite</a></li>
+{#              </ul>#}
+{#              <ul class="nav navbar-nav navbar-right">#}
                 {% if user.is_authenticated %}
-                <li><a href="{% url 'profile' %}">Profile/Settings</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                 <li><a href="{% url 'register' %}">Register</a></li>
@@ -43,9 +56,9 @@
                 {% endif %}
               </ul>
             </div>
-          </div>
-        </div>
-      </div>
+          </div></nav>
+
+
     <div class="container">
         {% block content %}
         {% endblock content %}
