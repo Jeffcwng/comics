@@ -14,4 +14,4 @@ def get_all_comics(start, end):  # grab all comics from 1 - 404 (because 404 is 
             each_comic = requests.get("http://xkcd.com/{}/info.0.json".format(n)).json()
             json.dump(each_comic, f)
             store.append(each_comic)
-    return store
+    return len(store)
