@@ -5,13 +5,13 @@
 
 $(document).ready(function() {
     $("#register").click(function () {
-      mixpanel.identify("13487");
+
+      mixpanel.identify($("#id_username").val());
       mixpanel.people.set({
-            "$username": "Joe",
-            "$first_name": "Joe",
-            "$last_name": "Joe",
-            "$email": "joe.doe@example.com",
-            "$created": "2013-04-01T09:02:00"
+            "$username": $("#id_username").val(),
+            "$first_name":$("#id_first_name").val(),
+            "$last_name": $("#id_last_name").val(),
+            "$email": $("#id_email").val()
         });
 
     });
