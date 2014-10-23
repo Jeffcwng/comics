@@ -1,0 +1,6 @@
+- name: Ensure we have latest version of code on server
+  git: repo={{ git_repo }} dest="{{project_path}}/"
+       accept_hostkey=yes
+
+- name: Ensure user owns our project
+  file: state=directory path={{project_path}} owner=ubuntu

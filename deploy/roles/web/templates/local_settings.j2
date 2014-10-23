@@ -1,0 +1,21 @@
+import os
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '{{ db_name }}',
+        'HOST': 'localhost',
+        'USER': '{{ db_user }}',
+        'PASSWORD': '{{ db_password }}'
+    }
+}
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+DEBUG = False
+ALLOWED_HOSTS = ['{{ nginx_server_name }}']
+
+RAVEN_CONFIG = {
+    'dsn': 'https://6a308cd04a10480daef1a95cd0a376a9:9b804dab39ec4b6d8ac26ede35b195eb@app.getsentry.com/32059',
+}

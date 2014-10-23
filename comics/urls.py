@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^$', 'xkcd.views.home', name='home'),
     url(r'^all_user_likes/$', 'xkcd.views.all_user_likes', name='all_user_likes'),
     url(r'^comics/$', 'xkcd.views.comics', name='comics'),
+    url(r'^error/$', 'xkcd.views.error', name='error'),
     url(r'^profile/$', 'xkcd.views.profile', name='profile'),
     url(r'^random_search/$', 'xkcd.views.random_search', name='random_search'),
 
