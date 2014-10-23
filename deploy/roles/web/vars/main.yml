@@ -1,0 +1,8 @@
+---
+
+git_repo: https://github.com/MiguelABarbosa/{{ production_project_name }}.git
+application_name: "{{ production_application_name }}"
+project_name: "{{ production_project_name }}"
+virtualenv_path: "/home/ubuntu/.virtualenvs/{{ project_name }}"
+project_path: "/home/ubuntu/{{ project_name }}"
+requirements_file: "{{ project_path }}/requirements.txt"

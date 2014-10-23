@@ -1,0 +1,10 @@
+---
+
+production_application_name: "xkcd"
+production_project_name: "comics"
+workers: 2
+db_name: "comics"
+db_user: "comics"
+db_password: "klevr"
+nginx_server_name: "ec2-54-68-225-53.us-west-2.compute.amazonaws.com"
+django_settings_file: comics.settings
