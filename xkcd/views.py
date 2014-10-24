@@ -76,3 +76,9 @@ def all_user_likes(request):
     print likes
 
     return render(request, "postlogin/all_user_likes.html", {'likes': likes})
+
+def error(request):
+    my_variable = '!'
+    my_list = ['testing', 'a', 'list', 'out']
+    my_list = ["{}{}".format(list_item, my_variable) for list_item in my_list]
+    raise NotImplementedError("Woops! This doesn't exist.")
