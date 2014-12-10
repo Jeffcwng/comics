@@ -3,6 +3,9 @@ from django.db import models
 
 
 class Person(AbstractUser):
+    # profile_image = models.ImageField(upload_to='img', blank=True, null= True, default='img/profile_photo.png')
+    # role = choiceField
+    # date = dateTime()
     pass
 
     def __unicode__(self):
